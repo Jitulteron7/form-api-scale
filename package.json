@@ -1,0 +1,17 @@
+{
+    "name": "data-collection-form-api",
+    "version": "1.0.0",
+    "description": "an api for collections of data for different use cases and highly scalable",
+    "main": "index.js",
+    "directories": {},
+    "scripts": {
+        "test": "test/inde.test.js",
+        "start": "node build/server.js",
+        "dev": "nodemon --config nodemon.json src/server.js"
+    },
+    "author": "Jitul Teron",
+    "license": "ISC",
+    "dependencies": {
+        "cassandra-driver": "^4.6.4"
+    }
+}
