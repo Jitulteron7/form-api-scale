@@ -3,8 +3,8 @@ const { client } = require('../../../db/cassandra');
 
 const UserModel = function (user) {
     this.name = user.name;
-    this.email = user.name;
-    this.password = user.name;
+    this.email = user.email;
+    this.password = user.password;
 };
 const createUser = async (userData) => {
     try {
@@ -30,4 +30,17 @@ const getUsers = async () => {
     }
 };
 
-module.exports = { getUsers, createUser, UserModel };
+const getFormResponse = async (formId, userId) => {
+    try {
+        console.log(formId, userId);
+        const query = `SELECT * FROM responses WHERE form = ? AND user = ?;`;
+        const params = [formId, userId];
+        const res = await client.execute(query, params);
+        return { message: 'success', status: 200, data: res.rows };
+    } catch (error) {
+        console.log(error, 'error');
+        throw new Error('Create User Error', error);
+    }
+};
+
+module.exports = { getUsers, getFormResponse, createUser, UserModel };

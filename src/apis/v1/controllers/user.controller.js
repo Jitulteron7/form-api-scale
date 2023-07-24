@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const Form = require('../models/form');
-// const Response = require('../models/reponse');
+const Response = require('../models/response');
 
 class UserController {
     core = {
@@ -27,7 +27,8 @@ class UserController {
 
         saveResponse: async (req, res) => {
             try {
-                const response = await Form.getForms();
+                const resData = req.body;
+                const response = await Response.postResponse(resData);
                 res.json({ message: response.message, status: response.status, data: response.data });
             } catch (error) {
                 res.status(500).json(error);
@@ -56,6 +57,19 @@ class UserController {
 
         getResponse: async (req, res) => {
             try {
+                const response = await Response.getResponses();
+                res.json({ message: response.message, status: response.status, data: response.data });
+            } catch (error) {
+                res.status(500).json(error);
+            }
+        },
+
+        getFormResponse : async(req,res)=>{
+            try {
+                const formid= '03a46b91-d968-4481-94f8-6338ec04a200'
+                const userid= 'a07d8afd-8030-478e-833f-c8172ae5f5f5'
+                const response = await User.getFormResponse(formid,userid)
+                res.json({ message: response.message, status: response.status, data: response.data });
             } catch (error) {
                 res.status(500).json(error);
             }

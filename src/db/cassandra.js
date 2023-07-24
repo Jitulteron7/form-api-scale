@@ -33,7 +33,7 @@ async function createTable() {
       );
       
       `;
-      const questionUDTQuery = `
+    const questionUDTQuery = `
       CREATE TYPE IF NOT EXISTS question (
         type TEXT,
         label TEXT,
@@ -50,20 +50,54 @@ async function createTable() {
         ans LIST<FROZEN<answer>>,
         post_by UUID,
         created_at TIMESTAMP,
-        updated_at TIMESTAMP
       );
       
-      CREATE TYPE IF NOT EXISTS answer (
-        type TEXT,
-        label TEXT,
-        options MAP<TEXT, TEXT>, 
-        required BOOLEAN
-      );`;
+      `;
+
+    const answerUDTQuery = `
+    CREATE TYPE IF NOT EXISTS answer (
+      type TEXT,
+      label TEXT,
+      options MAP<TEXT, TEXT>, 
+      required BOOLEAN
+    );
+    `;
+
+    // Index creation queries
+    const indexQuery1 = `
+  CREATE INDEX IF NOT EXISTS idx_forms_created_by ON forms (created_by);
+`;
+    const indexQuery2 = `
+  CREATE INDEX IF NOT EXISTS idx_response_form ON responses (form);
+`;
+    const indexQuery3 = `
+  CREATE INDEX IF NOT EXISTS idx_response_user ON responses (user);
+`;
+
+    const indexQuery4 = `
+  CREATE INDEX IF NOT EXISTS idx_response_post_by ON responses (post_by);
+`;
 
     try {
-        await client.execute(query1);
+        //clear all table
+        // await client.execute(`DROP TABLE IF EXISTS users`);
+        // await client.execute(`DROP TABLE IF EXISTS forms`);
+        // await client.execute(`DROP TABLE IF EXISTS responses`);
+
+        //crate UDTs
         await client.execute(questionUDTQuery);
+        await client.execute(answerUDTQuery);
+        // create table
+        await client.execute(query1);
         await client.execute(query2);
+        await client.execute(query3);
+
+        // Create indexes
+        await client.execute(indexQuery1);
+        await client.execute(indexQuery2);
+        await client.execute(indexQuery3);
+        await client.execute(indexQuery4);
+
         console.log('Table created successfully');
     } catch (err) {
         console.error('Error creating table:', err);
