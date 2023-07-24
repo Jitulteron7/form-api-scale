@@ -2,8 +2,9 @@ const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const chalk = require('chalk');
+
 const helmet = require('helmet');
-const { MainRouter } = require('./routes');
+const { UserRouter } = require('./routes');
 const logger = require('../../config/logger');
 const { NAMESPACE } = require('../../config/const/server');
 const app = express();
@@ -29,7 +30,7 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.use('/', MainRouter);
+app.use('/user', UserRouter);
 
 //error handler
 app.use((error, res, next) => {
