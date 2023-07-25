@@ -1,23 +1,9 @@
 FROM node:17
-
-
 WORKDIR /app
-
-
 COPY package.json .
+RUN npm install 
+COPY . ./
+EXPOSE 8080
 
-ARG NODE_ENV
-RUN if [ "$NODE_ENV" = "development"]; \
-        then yarn install; \
-        else yarn install --only=production; \
-        fi
+CMD [ "npm","run", "dev"]
 
-COPY . ./ 
-
-
-ENV PORT 3000
-
-EXPOSE $PORT
-
-
-CMD ["node","index.js"]
