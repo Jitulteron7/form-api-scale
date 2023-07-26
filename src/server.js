@@ -6,7 +6,7 @@ const { client, createTable } = require('./db/cassandra');
 
 const server = http.createServer(app);
 
-server.listen(SERVER_PORT, async () => {
+server.listen(process.env.PORT || SERVER_PORT, async () => {
     await client.connect();
     await createTable();
     console.info(chalk.bgWhite.black.bold(`Connecting to Server on port ${SERVER_PORT}`));

@@ -30,8 +30,8 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.use('/user', UserRouter);
-
+app.use('/api/user', UserRouter);
+app.enable('trust proxy');
 //error handler
 app.use((error, res, next) => {
     console.error(chalk.red(error));

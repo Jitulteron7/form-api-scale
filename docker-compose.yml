@@ -1,0 +1,14 @@
+version: '3'
+services:
+    nginx:
+        image: nginx:stable-alpine
+        ports:
+            - '8082:80'
+        volumes:
+            - ./nginx/:/etc/nginx/conf.d:ro
+        depends_on:
+            - form-node
+    form-node:
+        build: .
+        environment:
+            - PORT=8082
