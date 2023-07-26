@@ -1,0 +1,16 @@
+version: '3'
+services:
+    nginx:
+        ports:
+            - '8082:80'
+    node-app:
+        build:
+            context: . # path
+            args:
+                NODE_ENV: development # put arg for docker
+        volumes:
+            - ./:/app
+            - /app/node_modules
+
+        command: npm run dev
+
